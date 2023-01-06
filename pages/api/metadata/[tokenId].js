@@ -13,8 +13,10 @@ export default async function handler(req, res) {
     .then((tokenURI) => Buffer.from(tokenURI.replace("data:application/json;base64,", ""), "base64"))
     .then((buffer) => JSON.parse(buffer.toString()));
 
+  const hash = await skulls.tokenIdToHash(tokenId);
+
   const { name, description, attributes } = metadata;
-  const image = IMAGE_BASE_URI + `${tokenId}.png`;
+  const image = IMAGE_BASE_URI + `${hash}.png`;
 
   return res.send({
     name,
