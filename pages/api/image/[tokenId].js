@@ -13,11 +13,8 @@ const generatePNG = async (tokenId, size = 1024) => {
   const uriRegexp = /url\((?<dataURI>data:(?<mimeType>image\/.*?);base64,.*?\))/g;
 
   return skulls
-    .tokenURI(tokenId) // get tokenURI from contract
-    .then((tokenURI) => decodeURI(tokenURI, "application/json"))
-    .then((buffer) => JSON.parse(buffer.toString()))
-    .then((metadata) => decodeURI(metadata.image_data, "image/svg+xml"))
-    .then((imageData) => decodeURI(parser.parse(imageData).svg.image["@_href"], "image/svg+xml")) // extract nested image component
+    .tokenIdToSVG(tokenId)
+    .then((svg) => decodeURI(svg, "image/svg+xml"))
     .then((imageData) => parser.parse(imageData).svg["@_style"].matchAll(uriRegexp)) // extract css background images
     .then((matches) => Array.from(matches, (match) => decodeURI(match.groups.dataURI, match.groups.mimeType)).reverse())
     .then(([background, ...layers]) =>
