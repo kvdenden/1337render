@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "nwmd-1337";
+  font-style: normal;
+  src: local("nwmd-1337"), url(../public/fonts/nwmd-1337-817.woff2) format("woff");
+}
+
+@import "./scanlines.scss";
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  font-family: "nwmd-1337", monospace !important;
+  color: #72fe7d;
+  background: radial-gradient(rgba(0, 75, 0, 0.75), black 120%);
+  @extend .scanlines;
+}
