@@ -1,7 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 
-import sharp, { format } from "sharp";
+import sharp from "sharp";
 import _ from "lodash";
+import { skulls } from "../../web3/contracts";
 import { generatePNG } from "../../util";
 
 const hex = (r, g, b) => "#" + [r, g, b].map((i) => i.toString(16).padStart(2, "0")).join("");
@@ -20,7 +21,8 @@ const formatColor = (channels, format) => {
 };
 
 export default async function handler(req, res) {
-  const { hash, format = "hex" } = req.query;
+  const { tokenId, format = "hex" } = req.query;
+  const hash = tokenId ? await skulls.tokenIdToHash(tokenId) : req.query.hash;
   const image = await generatePNG(hash, 32);
   const pixels = await sharp(image)
     .raw()
