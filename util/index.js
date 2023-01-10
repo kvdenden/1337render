@@ -32,10 +32,12 @@ export const getLayerIndex = (layer) => {
 const decodeURI = (dataURI, mimeType = "application/json") =>
   Buffer.from(dataURI.replace(`data:${mimeType};base64,`, ""), "base64");
 
-export const generatePNG = async (hash, size, { layerIndices = [] }) => {
+export const generatePNG = async (hash, size, options = {}) => {
   const parser = new XMLParser({ ignoreAttributes: false });
 
   const uriRegexp = /url\((?<dataURI>data:(?<mimeType>image\/.*?);base64,.*?\))/g;
+
+  const { layerIndices = [] } = options;
 
   return skulls
     .hashToSVG(hash)
