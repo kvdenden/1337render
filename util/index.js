@@ -45,7 +45,9 @@ export const generatePNG = async (hash, size, options = {}) => {
     .then((imageData) => parser.parse(imageData).svg["@_style"].matchAll(uriRegexp)) // extract css background images
     .then((matches) => Array.from(matches, (match) => decodeURI(match.groups.dataURI, match.groups.mimeType)))
     .then((layers) => (layerIndices.length === 0 ? layers : layerIndices.map((i) => layers[i])))
-    .then((layers) => Promise.all(layers.map((layer) => sharp(layer).toFormat("png").toBuffer()).reverse()))
+    .then((layers) =>
+      Promise.all(layers.map((layer) => sharp(layer).ensureAlpha().toFormat("png").toBuffer()).reverse())
+    )
     .then(([first, ...rest]) =>
       sharp(first)
         .composite(rest.map((layer) => ({ input: layer })))
