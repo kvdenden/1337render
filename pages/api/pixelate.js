@@ -5,7 +5,7 @@ import _ from "lodash";
 import { skulls } from "../../web3/contracts";
 import { getLayerIndex, generatePNG } from "../../util";
 
-const hex = (r, g, b) => "#" + [r, g, b].map((i) => i.toString(16).padStart(2, "0")).join("");
+const hex = (r, g, b, a) => "#" + [r, g, b, a].map((i) => i.toString(16).padStart(2, "0")).join("");
 const rgb = (r, g, b) => `rgb(${r},${g},${b})`;
 const rgba = (r, g, b, a) => `rgba(${r},${g},${b},${+(a / 255).toFixed(2)})`;
 const numeric = (r, g, b, a) => ((r << 24) | (b << 16) | (g << 8) | a) >>> 0;
